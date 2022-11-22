@@ -60,7 +60,7 @@
                     if(res.meta.status !== 200) return this.$msg.error('登陆失败') 
                     this.$msg.success('登陆成功')
 
-                    console.log(res)
+                    // console.log(res)
                     // 记录token信息
                     window.sessionStorage.setItem('token', res.data.token)
                     // 跳转到Home
