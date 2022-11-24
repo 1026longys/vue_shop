@@ -3,6 +3,7 @@
         <!-- 面包屑导航去 -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>用户管理</el-breadcrumb-item>
             <el-breadcrumb-item>用户列表</el-breadcrumb-item>
         </el-breadcrumb>
 
@@ -33,14 +34,14 @@
                 </el-table-column>
                 <!-- 操作 -->
                 <el-table-column label="操作" width="180px" min-width="175px">
-                    <template  v-slot="{row}">
+                    <template v-slot="{row}">
                         <!-- 修改按钮 -->
                         <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(row.id)"></el-button>
                         <!-- 删除按钮 -->
                         <el-button type="danger" icon="el-icon-delete" size="mini" @click="delUser(row.id)"></el-button>
                         <!-- 分配角色按钮 -->
                         <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-                            <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+                            <el-button type="warning" icon="el-icon-setting" size="mini" @click="showSetRoleDialog(row)"></el-button>
                         </el-tooltip>
                     </template>
                 </el-table-column>
@@ -99,6 +100,26 @@
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="editDialogVisible = false">取 消</el-button>
                     <el-button type="primary" @click="editUser">修 改</el-button>
+                </span>
+            </el-dialog>
+
+            <!-- 角色分配 -->
+            <el-dialog title="角色分配" :visible.sync="setRoleDialogVisible" width="50%" @close="setRoleDialogClose">
+                <!-- 内容主体区 -->
+                <div>
+                    <p>用户的名字：{{ userInfo.username }}</p><br/>
+                    <p>当前的角色：{{ userInfo.role_name }}</p><br/>
+                    <p>分配新角色：
+                        <el-select v-model="selectRoleId" placeholder="请选择角色">
+                            <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </p>
+                </div>
+                <!-- 底部区 -->
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="setRole">确 定</el-button>
                 </span>
             </el-dialog>
 
@@ -178,7 +199,15 @@ export default {
             // 控制修改用户对话框的显示与隐藏
             editDialogVisible: false,
             // 查询到的用户信息
-            editForm: {}
+            editForm: {},
+            // 控制角色分配对话框的显示与隐藏
+            setRoleDialogVisible: false,
+            // 需要被分配角色的用户信息
+            userInfo: {},
+            // 所有角色的信息
+            rolesList: [],
+            // 被选中的角色id
+            selectRoleId: '',
         }
     },
     methods: {
@@ -292,6 +321,30 @@ export default {
             // 重新渲染列表
             this.getUserList()
             // console.log(res)
+        },
+        // 展示角色分配框
+        async showSetRoleDialog(userInfo) {
+            this.userInfo = userInfo
+            // 在展示对话框之前，获取所有角色列表
+            const { data : res } = await this.$http.get('roles')
+            if(res.meta.status !== 200) return this.$msg.error('获取角色信息失败')
+            this.rolesList = res.data
+            this.setRoleDialogVisible = true
+        },
+        // 角色分配
+        async setRole() {
+            const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, 
+            {
+                rid: this.selectRoleId
+            })
+            if(res.meta.status !== 200) return this.$msg.error('角色分配失败')
+            this.$msg.success('角色分配成功')
+            this.getUserList()
+            this.setRoleDialogVisible = false
+        },
+        setRoleDialogClose() {
+            this.selectRoleId = ''
+            this.userInfo = {}
         }
     },
     created() {
@@ -300,7 +353,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .el-card{
     box-shadow: 0 1px 1px rgba(0,0,0,0.15);
 }

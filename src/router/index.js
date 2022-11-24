@@ -4,13 +4,15 @@ import Login from '../components/Login'
 import Home from '../components/Home'
 import Welcome from '../components/Welcome'
 import User from '../components/user/User'
+import Rights from '../components/power/Rights'
+import Roles from '../components/power/Roles'
 
 Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [
     // 路由重定向，自动跳转到Login
-    { path: '/', redirect: '/Login' },
+    { path: '/', redirect: '/login' },
     { 
       path: '/login', 
       component: Login,
@@ -29,7 +31,19 @@ const router = new VueRouter({
           path: '/users',
           component: User,
           meta: {title: '用户列表'},
-        }
+        },
+        // 角色列表组件
+        {
+          path: '/roles',
+          component: Roles,
+          meta: {title: '角色管理'}
+        },
+        // 权限列表组件
+        { 
+          path: '/rights',
+          component: Rights,
+          meta: {title: '权限管理'}
+        },
       ]
     },
   ]

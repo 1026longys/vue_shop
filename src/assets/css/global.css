@@ -4,13 +4,14 @@
 }
 html, body, #app {
     height: 100%;
+    min-width: 1200px;
 }
-.el-header {
+/* .el-header {
     min-width: 380px;
 }
 .el-main {
     min-width: 700px;
-}
+} */
 .el-breadcrumb {
     font-size: 14px;
     margin-bottom: 20px;
