@@ -6,6 +6,7 @@ import Welcome from '../components/Welcome'
 import User from '../components/user/User'
 import Rights from '../components/power/Rights'
 import Roles from '../components/power/Roles'
+import Cate from '../components/goods/Cate'
 
 Vue.use(VueRouter)
 
@@ -44,6 +45,12 @@ const router = new VueRouter({
           component: Rights,
           meta: {title: '权限管理'}
         },
+        // 商品分类组件
+        {
+          path: '/categories',
+          component: Cate,
+          meta: {title: '商品分类'}
+        }
       ]
     },
   ]

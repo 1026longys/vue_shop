@@ -25,3 +25,8 @@ html, body, #app {
 .el-dialog {
     min-width: 500px;
 }
+
+/* 解决二级选择器显示高度问题 */
+.el-cascader-panel {
+    height: 250px;
+}
