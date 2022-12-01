@@ -11,6 +11,7 @@ import Params from '../components/goods/Params'
 import GoodsList from '../components/goods/List'
 import Add from '../components/goods/Add'
 import Order from '../components/order/Order'
+import Report from '../components/report/Report'
 
 Vue.use(VueRouter)
 
@@ -74,6 +75,12 @@ const router = new VueRouter({
           path: '/orders',
           component: Order,
           meta: {title: '订单管理'}
+        },
+        // 数据统计
+        {
+          path: '/reports',
+          component: Report,
+          meta: {title: '数据报表'}
         }
       ]
     },
