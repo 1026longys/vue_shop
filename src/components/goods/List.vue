@@ -45,17 +45,6 @@
                             layout="total, sizes, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </el-card>
-
-        <!-- 添加 -->
-        <el-dialog>
-
-        </el-dialog>
-
-        <!-- 编辑 -->
-        <el-dialog>
-
-        </el-dialog>
-
     </div>
 </template>
 
@@ -89,7 +78,7 @@ export default {
             this.goodsList = res.data.goods
             // 商品总数据
             this.total = res.data.total
-            console.log(res.data, this.goodsList)
+            // console.log(res.data, this.goodsList)
         },
         // 每页展示数据条数发生改变时触发
         handleSizeChange(newSize) {

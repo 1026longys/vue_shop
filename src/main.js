@@ -17,7 +17,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 // 配置请求根路径
-axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
+axios.defaults.baseURL = 'https://lianghj.top:8888/api/private/v1/'
 axios.interceptors.request.use(config=> {
   // console.log(config)
   // 需要授权的 API ，必须在请求头中使用 Authorization 字段提供 token 令牌
