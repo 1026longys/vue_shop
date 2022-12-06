@@ -123,7 +123,7 @@ export default {
             // 静态属性列表数据
             onlyTableData: [],
             // 上传图片的地址
-            uploadURL: 'http://127.0.0.1:8888/api/private/v1/upload',
+            uploadURL: 'https://lianghj.top:8888/api/private/v1/upload',
             // 图片上传组件的 headers 请求头对象
             headersObj: {
                 Authorization: window.sessionStorage.getItem('token'),
@@ -138,7 +138,7 @@ export default {
     methods: {
         async getCateList() {
             const { data: res } = await this.$http.get('categories')
-            if (res.meta.status !== 200) return this.$msg.error('获取分类信息失败')
+            if (res.meta.status !== 200) return this.$message.error('获取分类信息失败')
             // 数据填充到分类列表中
             this.cateList = res.data
         },
@@ -152,7 +152,7 @@ export default {
         // 切换标签页是触发
         beforeTabLeave(activeName, oldActiveName) {
             if (oldActiveName === '0' && this.addForm.goods_cat.length !== 3) {
-                this.$msg.error('请先选择商品分类！');
+                this.$message.error('请先选择商品分类！');
                 return false
             }
         },
@@ -162,16 +162,16 @@ export default {
             if(this.activeIndex === '1'){
                 const { data: res } = await this.$http.get(`categories/${this.cateId}/attributes`,
                     { params: { sel: 'many' } })
-                if (res.meta.status !== 200) return this.$msg.error('获取商品参数列表失败')
+                if (res.meta.status !== 200) return this.$message.error('获取商品参数列表失败')
                 // console.log(res.data)
                 res.data.forEach(item => {
-                    item.attr_vals = item.attr_vals === 0 ? [] : item.attr_vals.split(' ')
+                    item.attr_vals = item.attr_vals !== 0 ? item.attr_vals.split(' ') : []
                 })
                 this.manyTableData = res.data
             }else if(this.activeIndex === '2') {         // 静态属性列表
                 const { data: res } = await this.$http.get(`categories/${this.cateId}/attributes`,
                     { params: { sel: 'only' } })
-                if (res.meta.status !== 200) return this.$msg.error('获取商品参数列表失败')
+                if (res.meta.status !== 200) return this.$message.error('获取商品参数列表失败')
                 console.log(res.data)
                 this.onlyTableData = res.data
             }
@@ -203,7 +203,7 @@ export default {
         // 添加商品
         addGoods() {
             this.$refs.addFormRef.validate(async vaild=> {
-                if(!vaild) return this.$msg.error('请填写必要的表单项！')
+                if(!vaild) return this.$message.error('请填写必要的表单项！')
                 // 深拷贝
                 const form = _.cloneDeep(this.addForm)
                 form.goods_cat  = form.goods_cat.join(',')
@@ -226,8 +226,8 @@ export default {
                 form.attrs = this.addForm.attrs
                 console.log(form, form.attrs)
                 const { data: res } = await this.$http.post('goods', form)
-                if(res.meta.status !== 201) return this.$msg.error('添加商品失败！')
-                this.$msg.success('添加商品成功！')
+                if(res.meta.status !== 201) return this.$message.error('添加商品失败！')
+                this.$message.success('添加商品成功！')
                 this.$router.push('/goods')
             })
         }

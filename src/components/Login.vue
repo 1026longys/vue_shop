@@ -56,9 +56,8 @@
                     if(!vaild) return;
                     //      解构赋值                           请求地址    请求参数（对象）
                     const {data: res} = await this.$http.post('login', this.loginForm)
-                    // console.log(res)
-                    if(res.meta.status !== 200) return this.$msg.error('登陆失败') 
-                    this.$msg.success('登陆成功')
+                    if (res.meta.status !== 200) return this.$message.error('登陆失败') 
+                    this.$message.success('登陆成功')
 
                     // console.log(res)
                     // 记录token信息

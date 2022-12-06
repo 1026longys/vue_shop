@@ -63,8 +63,8 @@ export default {
         var myChart = echarts.init(document.getElementById('main'));
 
         const { data: res } = await this.$http.get('reports/type/1')
-        if (res.meta.status !== 200) return this.$msg.error('数据获取失败！')
-        this.$msg.success('数据获取成功！')
+        if (res.meta.status !== 200) return this.$message.error('数据获取失败！')
+        this.$message.success('数据获取成功！')
 
         // 4. 准备数据和配置项
         const result = _.merge(res.data, this.options)

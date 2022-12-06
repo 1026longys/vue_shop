@@ -6,12 +6,6 @@ html, body, #app {
     height: 100%;
     min-width: 1200px;
 }
-/* .el-header {
-    min-width: 380px;
-}
-.el-main {
-    min-width: 700px;
-} */
 .el-breadcrumb {
     font-size: 14px;
     margin-bottom: 20px;
@@ -29,6 +23,9 @@ html, body, #app {
 /* 解决二级选择器显示高度问题 */
 .el-cascader-panel {
     height: 250px;
+}
+.el-cascader {
+    width: 230px;
 }
 .el-step__title {
     font-size: 13px;

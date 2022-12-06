@@ -52,7 +52,8 @@
                 <el-form-item label="父级分类">
                     <el-cascader v-model="selectedKeys" :options="parentCateList" 
                                 :props="{ expandTrigger: 'hover', ...cascaderProps }"
-                                @change="parentCateChange" clearable>
+                                @change="parentCateChange" clearable
+                                style="width:100%">
                     </el-cascader>
                 </el-form-item>
             </el-form>
@@ -151,7 +152,7 @@ export default {
     methods: {
         async getClassifyList() {
             const { data: res } = await this.$http.get('categories', {params: this.classifyInfo})
-            if(res.meta.status !== 200) return this.$msg.error('获取分类信息失败')
+            if(res.meta.status !== 200) return this.$message.error('获取分类信息失败')
             // 数据填充到分类列表中
             this.classifyList = res.data.result
             // 为总数据条数赋值
@@ -173,7 +174,7 @@ export default {
         // 获取父级分类得数据列表
         async getParentCateList() {
             const { data: res } = await this.$http.get('categories', { params: {type: 2} })
-            if (res.meta.status !== 200) return this.$msg.error('获取分类信息失败')
+            if (res.meta.status !== 200) return this.$message.error('获取分类信息失败')
             // 数据填充到分类列表中
             this.parentCateList = res.data
             console.log(res)
@@ -201,8 +202,8 @@ export default {
                 if (!valid) return
                 // 发起添加分类的网络请求
                 const { data: res } = await this.$http.post('categories', this.addCateForm)
-                if (res.meta.status !== 201) return this.$msg.error('添加分类失败')
-                this.$msg.success('添加分类成功')
+                if (res.meta.status !== 201) return this.$message.error('添加分类失败')
+                this.$message.success('添加分类成功')
                 this.getClassifyList()
                 this.addDialogVisible = false
             })
@@ -220,7 +221,7 @@ export default {
         // 编辑
         async editClassify(id) {
             const { data: res } = await this.$http.get('categories/'+id)
-            if(res.meta.status !== 200) return this.$msg.error('获取分类失败')
+            if(res.meta.status !== 200) return this.$message.error('获取分类失败')
             this.editForm = res.data
             this.editDialogVisible = true
         },
@@ -230,8 +231,8 @@ export default {
                 if (!valid) return
                 // 发起添加分类的网络请求
                 const { data: res } = await this.$http.put('categories/' + id, {cat_name: this.editForm.cat_name})
-                if (res.meta.status !== 200) return this.$msg.error('修改分类失败')
-                this.$msg.success('修改分类成功')
+                if (res.meta.status !== 200) return this.$message.error('修改分类失败')
+                this.$message.success('修改分类成功')
                 this.getClassifyList()
                 this.editDialogVisible = false
             })
@@ -249,11 +250,11 @@ export default {
                 }).catch(err => err)
                 
             if (confirmResult !== 'confirm') {
-                return this.$msg.info('已取消删除')
+                return this.$message.info('已取消删除')
             }
             const { data: res } = await this.$http.delete('categories/'+id)
-            if(res.meta.status !== 200) return this.$msg.error('删除失败')
-            this.$msg.success('删除成功')
+            if(res.meta.status !== 200) return this.$message.error('删除失败')
+            this.$message.success('删除成功')
             this.getClassifyList()
         }
     }
@@ -263,8 +264,5 @@ export default {
 <style lang="less" scoped>
 .treeTable{
     margin: 20px 0;
-}
-.el-cascader{
-    width: 100%;
 }
 </style>

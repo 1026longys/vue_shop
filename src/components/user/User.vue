@@ -216,7 +216,7 @@ export default {
             const { data : res} = await this.$http.get('users', {
                 params: this.queryInfo
             })
-            if(res.meta.status !== 200) return this.$msg.error('获取用户列表出错！')
+            if(res.meta.status !== 200) return this.$message.error('获取用户列表出错！')
             this.userList = res.data.users
             this.total = res.data.total
             // console.log(res)
@@ -239,9 +239,9 @@ export default {
             const { data: res } = await this.$http.put(`users/${userinfo.id}/state/${userinfo.mg_state}`)
             if(res.meta.status !== 200) { 
                 userinfo.mg_state = !userinfo.mg_state
-                return this.$msg.error('更新用户状态失败')
+                return this.$message.error('更新用户状态失败')
             } 
-            this.$msg.success('更新用户状态成功!')
+            this.$message.success('更新用户状态成功!')
         },
         // 监听添加用户对话框的关闭事件并重置
         addDialogClose() {
@@ -255,8 +255,8 @@ export default {
                 // 发起添加用户的网络请求
                 const { data : res } = await this.$http.post('users', this.addForm)
                 
-                if(res.meta.status !== 201) return this.$msg.error('添加用户失败！')
-                this.$msg.success('添加用户成功！')
+                if(res.meta.status !== 201) return this.$message.error('添加用户失败！')
+                this.$message.success('添加用户成功！')
                 // 添加成功后隐藏表单
                 this.addDialogVisible = false
                 // 重新渲染列表
@@ -267,7 +267,7 @@ export default {
         // 展示修改用户的对话框并根据id查询数据
         async showEditDialog(id) {
             const { data: res } = await this.$http.get(`users/${id}`)
-            if(res.meta.status !== 200) return this.$msg.error('获取用户信息失败！') 
+            if(res.meta.status !== 200) return this.$message.error('获取用户信息失败！') 
             this.editForm = res.data
             // console.log(id, res)
             // 显示修改用户框
@@ -288,12 +288,12 @@ export default {
                     email: this.editForm.email,
                     mobile: this.editForm.mobile
                 })
-                if (res.meta.status !== 200) return this.$msg.error('更新用户失败！')
+                if (res.meta.status !== 200) return this.$message.error('更新用户失败！')
                 // 添加成功后隐藏表单
                 this.editDialogVisible = false
                 // 重新渲染列表
                 this.getUserList()
-                this.$msg.success('更新用户成功！')
+                this.$message.success('更新用户成功！')
                 // console.log(res, this.editForm.id)
             })
         },
@@ -313,11 +313,11 @@ export default {
             // 如果用户取消了删除，则返回值为字符串 cancel
             console.log(confirmResult)
             if (confirmResult !== 'confirm') {
-                return this.$msg.info('已取消删除')
+                return this.$message.info('已取消删除')
             }
             const { data : res } = await this.$http.delete('users/' + id)
-            if (res.meta.status !== 200) return this.$msg.error('删除用户失败！')
-            this.$msg.success('删除用户成功！')
+            if (res.meta.status !== 200) return this.$message.error('删除用户失败！')
+            this.$message.success('删除用户成功！')
             // 重新渲染列表
             this.getUserList()
             // console.log(res)
@@ -327,7 +327,7 @@ export default {
             this.userInfo = userInfo
             // 在展示对话框之前，获取所有角色列表
             const { data : res } = await this.$http.get('roles')
-            if(res.meta.status !== 200) return this.$msg.error('获取角色信息失败')
+            if(res.meta.status !== 200) return this.$message.error('获取角色信息失败')
             this.rolesList = res.data
             this.setRoleDialogVisible = true
         },
@@ -337,8 +337,8 @@ export default {
             {
                 rid: this.selectRoleId
             })
-            if(res.meta.status !== 200) return this.$msg.error('角色分配失败')
-            this.$msg.success('角色分配成功')
+            if(res.meta.status !== 200) return this.$message.error('角色分配失败')
+            this.$message.success('角色分配成功')
             this.getUserList()
             this.setRoleDialogVisible = false
         },

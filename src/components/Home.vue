@@ -85,7 +85,7 @@
             // 获取菜单列表信息 
             async getMenuList() {
                 const { data : res } = await this.$http.get('menus')
-                if(res.meta.status !== 200) return this.$msg.error('获取菜单列表失败！')
+                if(res.meta.status !== 200) return this.$message.error('获取菜单列表失败！')
                 this.menuList = res.data
                 console.log(res)
             },

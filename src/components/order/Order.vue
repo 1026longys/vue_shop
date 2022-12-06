@@ -35,8 +35,8 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="操作" width="130px">
-                    <template>
-                        <el-button type="primary" icon="el-icon-edit" size="mini" @click="showDialog"></el-button>
+                    <template v-slot="{row}">
+                        <el-button type="primary" icon="el-icon-edit" size="mini" @click="showDialog(row)"></el-button>
                         <el-button type="success" icon="el-icon-location-outline" size="mini" @click="showProgressBox"></el-button>
                     </template>
                 </el-table-column>
@@ -119,7 +119,7 @@ export default {
         // 获取订单数据列表
         async getOrdersList() {
             const { data: res } = await this.$http.get('orders', {params: this.queryInfo})
-            if(res.meta.status !== 200) return this.$msg.error('获取订单数据失败！')
+            if(res.meta.status !== 200) return this.$message.error('获取订单数据失败！')
             this.ordersList = res.data.goods
             this.total = res.data.total
             // console.log(res.data)
@@ -135,7 +135,8 @@ export default {
             this.getOrdersList()
         },
         // 展示修改地址对话框
-        showDialog() {
+        showDialog(id) {
+            console.log(id)
             this.addressDialogVisible = true
         },
         // 级联选择器关闭时，重置表单
@@ -144,8 +145,8 @@ export default {
         },
         async showProgressBox() {
             const { data: res } = await this.$http.get('/kuaidi/1106975712662')
-            if(res.meta.status !== 200) return this.$msg.error('获取物流信息失败！')
-            this.$msg.success('物流信息获取成功！')
+            if(res.meta.status !== 200) return this.$message.error('获取物流信息失败！')
+            this.$message.success('物流信息获取成功！')
             this.progressInfo = res.data
             // this.progressInfo = [
             //   {

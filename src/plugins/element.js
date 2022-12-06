@@ -8,7 +8,7 @@ import { Button, Form, FormItem, Input, Message,
     Tag, Tree, Select, Option, Cascader,
     Alert, Tabs, TabPane, Steps, Step,
     CheckboxGroup, Checkbox, Upload, 
-    Timeline, TimelineItem,
+    Timeline, TimelineItem
     } from 'element-ui'
 
 Vue.use(Button)
@@ -50,8 +50,6 @@ Vue.use(Timeline)
 Vue.use(TimelineItem)
 
 
-
-
-Vue.prototype.$msg = Message
+Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
 

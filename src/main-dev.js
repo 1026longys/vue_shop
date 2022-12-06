@@ -16,18 +16,31 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+
+// 导入 NProgress 对应的 js 和 css 包
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
+Vue.config.productionTip = false
 // 配置请求根路径
 axios.defaults.baseURL = 'https://lianghj.top:8888/api/private/v1/'
+// request 拦截器  展示进度条
 axios.interceptors.request.use(config=> {
   // console.log(config)
+  NProgress.start();
   // 需要授权的 API ，必须在请求头中使用 Authorization 字段提供 token 令牌
   config.headers.Authorization = window.sessionStorage.getItem('token')
   // console.log(config)
+  // 最后必须 return config
+  return config
+})
+// 在 response 拦截器中隐藏进度条
+axios.interceptors.response.use(config=> {
+  NProgress.done();
   return config
 })
 Vue.prototype.$http = axios
 
-Vue.config.productionTip = false
 Vue.component('tree-table', TreeTable)
 
 // 全局时间过滤器

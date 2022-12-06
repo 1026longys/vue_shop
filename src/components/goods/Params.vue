@@ -14,7 +14,7 @@
             </el-alert>
             <!-- 选择商品分类区域 -->
             <el-row class="cat_opt">
-                <el-col>
+                <el-col :span="12">
                     <span>选择商品分类：</span>
                     <!-- 选择商品分类的级联选择框 -->
                     <el-cascader v-model="selectedCateKeys" :options="cateList" 
@@ -160,7 +160,7 @@ export default {
         // 获取所有的商品分类列表
         async getCateList() {
             const { data: res } = await this.$http.get('categories')
-            if (res.meta.status !== 200) return this.$msg.error('获取分类信息失败')
+            if (res.meta.status !== 200) return this.$message.error('获取分类信息失败')
             // 数据填充到分类列表中
             this.cateList = res.data
         },
@@ -183,7 +183,7 @@ export default {
             // 根据所选分类的id，和当前所处的面板，发送请求，获取对应的参数
             const { data: res } = await this.$http.get(`categories/${this.cateId}/attributes`,
             { params: { sel: this.activeName } })
-            if (res.meta.status !== 200) return this.$msg.error('获取参数失败')
+            if (res.meta.status !== 200) return this.$message.error('获取参数失败')
 
             res.data.forEach(item=> {
                 item.attr_vals = item.attr_vals ? item.attr_vals.split(' ') : []
@@ -211,8 +211,8 @@ export default {
                         attr_name: this.addForm.attr_name,
                         attr_sel: this.activeName
                     })
-                if (res.meta.status !== 201) return this.$msg.error('添加参数失败！')
-                this.$msg.success('添加参数成功！')
+                if (res.meta.status !== 201) return this.$message.error('添加参数失败！')
+                this.$message.success('添加参数成功！')
                 // 添加成功后隐藏表单
                 this.addDialogVisible = false
                 // 重新渲染列表
@@ -230,7 +230,7 @@ export default {
                     attr_sel: this.activeName
                 }
             })
-            if(res.meta.status !== 200) return this.$msg.error('获取参数数据失败')
+            if(res.meta.status !== 200) return this.$message.error('获取参数数据失败')
             this.editForm = res.data
             this.editDialogVisible = true
             console.log(res.data)
@@ -245,8 +245,8 @@ export default {
                         attr_name: this.editForm.attr_name,
                         attr_sel: this.activeName,
                     })
-                if (res.meta.status !== 200) return this.$msg.error('更新参数失败！')
-                this.$msg.success('更新参数成功！')
+                if (res.meta.status !== 200) return this.$message.error('更新参数失败！')
+                this.$message.success('更新参数成功！')
                 // 重新渲染列表
                 this.getParamsData()
                 // 添加成功后隐藏表单
@@ -265,11 +265,11 @@ export default {
                     type: 'warning'
                 }).catch(err => err)
             if (confirmResult !== 'confirm') {
-                return this.$msg.info('已取消删除')
+                return this.$message.info('已取消删除')
             }
             const { data: res } = await this.$http.delete(`categories/${this.cateId}/attributes/${id}`)
-            if (res.meta.status !== 200) return this.$msg.error('删除参数失败！')
-            this.$msg.success('删除参数成功！')
+            if (res.meta.status !== 200) return this.$message.error('删除参数失败！')
+            this.$message.success('删除参数成功！')
             // 重新渲染列表
             this.getParamsData()
         },
@@ -302,8 +302,8 @@ export default {
                     attr_vals: row.attr_vals.join(' '),
 
                 })
-            if (res.meta.status !== 200) return this.$msg.error('更新参数失败！')
-            this.$msg.success('更新参数成功！')
+            if (res.meta.status !== 200) return this.$message.error('更新参数失败！')
+            this.$message.success('更新参数成功！')
         },
         // 删除vals
         handleClosed(i, row) {
